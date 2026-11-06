@@ -1,13 +1,56 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Project Sub-3:05</title><style>
 :root{font:16px system-ui,sans-serif;background:#0a1422;color:#edf3fb}*{box-sizing:border-box}body{margin:auto;max-width:1050px;padding:24px}h1{font-size:2rem;margin:0}p,.muted{color:#a9b9cf}section,.tile{background:#14243a;border:1px solid #31435d;border-radius:14px;padding:18px;margin:14px 0}.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.tile{margin:0}.value{font-size:1.8rem;font-weight:700;margin-top:7px}input,button{font:inherit;padding:12px;border-radius:8px;border:1px solid #667d99;margin:4px}input{background:#0a1422;color:white;max-width:100%}button{background:#9de1bd;color:#092018;font-weight:700;cursor:pointer}.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid #31435d}th{color:#b2c0d0}.error{color:#ffb4b4}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.day{min-height:75px;background:#1b304c;border-radius:8px;padding:8px;font-size:.8rem}.day strong{display:block}.day span{color:#a4e5c2}@media(max-width:600px){.day{min-height:65px;padding:5px;font-size:.7rem}body{padding:12px}}
- .plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.workout{background:#1b304c;border:1px solid #37516d;border-radius:12px;padding:13px}.workout h3{margin:5px 0;font-size:1rem}.workout p{margin:7px 0;font-size:.85rem}.workout select,.workout textarea{width:100%;background:#0a1422;color:#edf3fb;border:1px solid #667d99;border-radius:7px;padding:8px;margin-top:8px;font:inherit}.workout textarea{min-height:55px;resize:vertical}.hint{font-size:.82rem;color:#a9b9cf}.phase{font-weight:700;color:#9de1bd}</style></head><body><h1>Project Sub-3:05</h1><p>Your Garmin-powered marathon training home</p>
+ .plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.workout{background:#1b304c;border:1px solid #37516d;border-radius:12px;padding:13px}.workout h3{margin:5px 0;font-size:1rem}.workout p{margin:7px 0;font-size:.85rem}.workout select,.workout textarea{width:100%;background:#0a1422;color:#edf3fb;border:1px solid #667d99;border-radius:7px;padding:8px;margin-top:8px;font:inherit}.workout textarea{min-height:55px;resize:vertical}.hint{font-size:.82rem;color:#a9b9cf}.phase{font-weight:700;color:#9de1bd}
+/* Editorial running-journal styling: warm, restrained, and mobile-first. */
+:root{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f5f1;color:#202722;font-size:15px}
+body{max-width:1200px;padding:34px 28px 64px;background:transparent}
+h1{font-size:clamp(2.2rem,5vw,3.7rem);font-weight:800;letter-spacing:-.065em;line-height:1.04}
+h2{font-size:1.12rem;letter-spacing:-.025em;margin:0 0 14px;font-weight:750}
+p,.muted,.hint{color:#69726a}
+section{background:#fff;border:1px solid #e2e5de;border-radius:12px;padding:23px;margin:18px 0;box-shadow:0 3px 14px rgba(24,40,26,.025)}
+.tile{background:#fff;border:1px solid #e2e5de;border-radius:12px;padding:22px;margin:0;box-shadow:none}
+.tiles{gap:12px;margin:18px 0 26px}
+.tile .muted{font-size:.79rem;letter-spacing:.02em;font-weight:650}
+.value{font-size:2.5rem;font-weight:780;letter-spacing:-.065em;color:#1c3528;margin-top:12px;line-height:1.1;font-variant-numeric:tabular-nums}
+button{background:#203e2f;color:#fff;border:1px solid #203e2f;font-size:.88rem;padding:10px 14px;border-radius:7px;font-weight:650}
+button:hover{background:#305b42}
+input{background:#fff;color:#1f2822;border-color:#cbd2c9}
+.workout{background:#f8faf7;border:1px solid #e3e9e0;border-radius:9px;padding:16px}
+.workout h3{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:#6d786e;font-weight:700}
+.workout strong{display:block;font-size:1.04rem;letter-spacing:-.025em;color:#253b2c;margin-top:9px}
+.workout p{font-size:.86rem;line-height:1.55;color:#647067}
+.workout select,.workout textarea{background:#fff;color:#25342a;border:1px solid #d6ded5;font-size:.86rem}
+.plan-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.calendar{gap:6px}
+.day{background:#f2f5ef;border:1px solid #e6ece4;border-radius:7px;color:#36453a;min-height:77px}
+.day strong{font-size:.78rem}
+.day span{color:#317552;font-weight:750;font-size:.88rem}
+th{color:#718075;font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;font-weight:750}
+td,th{border-bottom:1px solid #edf0ea;padding:12px 10px}
+tr:last-child td{border-bottom:0}
+.phase{color:#356d4b;font-size:.9rem}
+.error{color:#a33434}
+#status{font-size:.8rem}
+#app>.row{justify-content:flex-end;margin-top:20px;margin-bottom:12px}
+#who{margin-right:auto;font-size:.83rem}
+#login{max-width:470px;margin-top:35px}
+#login input{width:100%;margin:5px 0 10px}
+#login button{margin:0}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:22px 0 26px;border-bottom:1px solid #dce2d9}
+.hero p{margin:12px 0 0;font-size:.95rem}
+.eyebrow{font-size:.68rem;letter-spacing:.17em;font-weight:800;color:#477258;text-transform:uppercase;margin-bottom:12px}
+.hero-tag{border:1px solid #cbd8ce;border-radius:999px;padding:8px 13px;color:#3b5a43;font-size:.72rem;font-weight:750;white-space:nowrap}
+section h2:before{content:"";display:inline-block;width:6px;height:16px;background:#537e5b;border-radius:2px;margin-right:11px;vertical-align:-2px}
+@media(max-width:650px){body{padding:20px 14px 45px}.hero{align-items:flex-start;flex-direction:column;gap:14px}section{padding:17px;margin:13px 0}.tile{padding:16px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.value{font-size:2rem}.day{padding:5px;min-height:59px;font-size:.67rem}.day span{font-size:.72rem}.plan-grid{grid-template-columns:1fr 1fr}.workout{padding:11px}.workout strong{font-size:.91rem}.workout p{font-size:.77rem}#app>.row{justify-content:flex-start}}
+@media(max-width:390px){.plan-grid{grid-template-columns:1fr}}
+</style></head><body><header class="hero"><div><div class="eyebrow">Training journal / 2026—27</div><h1>Project Sub-3:05<span style="color:#6c9a76">.</span></h1><p>Your road to the next starting line.</p></div><div class="hero-tag">TOBACCO ROAD · MAR 14, 2027</div></header>
 <section id="login"><h2>Sign in</h2><p>Use your existing Supabase Auth email and password.</p><form id="form"><input type="email" id="email" placeholder="Email" required autocomplete="username"><input type="password" id="password" placeholder="Password" required autocomplete="current-password"><button>Sign in</button></form></section>
-<div id="app" hidden><section class="row"><span id="who" class="muted"></span><button id="refresh">Refresh Garmin data</button><button id="logout">Sign out</button></section>
-<div class="tiles"><div class="tile"><div class="muted">Last 7 days</div><div class="value" id="w1">—</div><div class="muted">running miles</div></div><div class="tile"><div class="muted">Previous 7 days</div><div class="value" id="w2">—</div><div class="muted">running miles</div></div><div class="tile"><div class="muted">Longest run (30 days)</div><div class="value" id="long">—</div><div class="muted">miles</div></div><div class="tile"><div class="muted">Garmin activities</div><div class="value" id="total">—</div><div class="muted">imported</div></div></div>
-<section><h2>Adaptive coach · next 7 days</h2><p id="coachSummary" class="muted">Analyzing Garmin training history…</p><div id="coachDays" class="plan-grid"></div></section><section><h2>Manual workout notes · next 7 days</h2><p class="muted">Your editable weekly schedule. Suggestions are starting points, not automatic coaching decisions. Changes save on this device.</p><p id="raceCountdown" class="phase"></p><div class="plan-grid" id="trainingPlan"></div><p class="hint">Planned sessions are separate from recorded Garmin activities. Review effort and recovery before doing harder workouts.</p></section><section><h2>Training calendar · last 28 days</h2><div class="calendar" id="calendar"></div><p class="muted">Recorded Garmin running mileage; planned workouts will be added next.</p></section>
-<section><h2>Recent runs</h2><div class="scroll"><table><thead><tr><th>Date</th><th>Type</th><th>Miles</th><th>Time</th><th>Pace</th></tr></thead><tbody id="runs"></tbody></table></div></section>
-<section><h2>Coach's brief</h2><p>Coaching recommendations are not yet published to this website. The dashboard currently displays verified Garmin data; no AI-generated workouts are being presented as personalized advice.</p></section></div>
+<div id="app" hidden><section class="row"><span id="who" class="muted"></span><button id="refresh">Refresh data</button><button id="logout">Sign out</button></section>
+<div class="tiles"><div class="tile"><div class="muted">Last 7 days</div><div class="value" id="w1">—</div><div class="muted">running miles</div></div><div class="tile"><div class="muted">Previous 7 days</div><div class="value" id="w2">—</div><div class="muted">running miles</div></div><div class="tile"><div class="muted">Longest run (30 days)</div><div class="value" id="long">—</div><div class="muted">miles</div></div><div class="tile"><div class="muted">Activities synced</div><div class="value" id="total">—</div><div class="muted">imported</div></div></div>
+<section><h2>Your training week</h2><p id="coachSummary" class="muted">Analyzing Garmin training history…</p><div id="coachDays" class="plan-grid"></div></section><section><h2>Workout notes & adjustments</h2><p class="muted">Your editable weekly schedule. Suggestions are starting points, not automatic coaching decisions. Changes save on this device.</p><p id="raceCountdown" class="phase"></p><div class="plan-grid" id="trainingPlan"></div><p class="hint">Planned sessions are separate from recorded Garmin activities. Review effort and recovery before doing harder workouts.</p></section><section><h2>Training log · last 28 days</h2><div class="calendar" id="calendar"></div><p class="muted">Recorded Garmin running mileage; planned workouts will be added next.</p></section>
+<section><h2>Recent activities</h2><div class="scroll"><table><thead><tr><th>Date</th><th>Type</th><th>Miles</th><th>Time</th><th>Pace</th></tr></thead><tbody id="runs"></tbody></table></div></section>
+<section><h2>Training notes</h2><p>Coaching recommendations are not yet published to this website. The dashboard currently displays verified Garmin data; no AI-generated workouts are being presented as personalized advice.</p></section></div>
 <p id="status" role="status" class="muted"></p>
 <script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
