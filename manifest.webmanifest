@@ -1,0 +1,18 @@
+{
+  "name": "Project Sub-3:05",
+  "short_name": "Sub-3:05",
+  "description": "Personal marathon training journal and coaching dashboard",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f1",
+  "theme_color": "#203e2f",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
