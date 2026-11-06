@@ -27,7 +27,7 @@ export function makeWeek(activities, now = new Date()) {
   const days=[];
   for(let i=0;i<7;i++){
     const d=new Date(today);d.setDate(today.getDate()+i);const day=d.getDay();
-    const t=templates[day];let km=Math.round(target*t.share); if(['Easy aerobic','Quality session','Medium-long aerobic'].includes(t.name))km=Math.max(10,km);
+    const t=templates[day];let km=Math.round(target*t.share); if(['Easy aerobic','Quality session'].includes(t.name))km=10; else if(t.name==='Medium-long aerobic')km=Math.max(10,km);
     if(t.name==='Long run')km=Math.min(km,32);
     if((caution||!hasHistory)&&t.name==='Quality session'){days.push({date:d,name:'Easy aerobic (cautious)',km,detail:'Keep it easy while recent training load is uncertain or elevated.'});continue}
     if(weeks<=2&&weeks>0&&t.name==='Quality session')days.push({date:d,name:'Light sharpening',km:Math.min(km,8),detail:'Short relaxed strides only; prioritize recovery.'});
