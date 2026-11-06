@@ -1,7 +1,7 @@
 {
   "name": "Project Sub-3:05",
   "short_name": "Sub-3:05",
-  "description": "Personal marathon training journal and coaching dashboard",
+  "description": "Personal marathon training journal, Garmin activity dashboard, and adaptive coaching",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
