@@ -1,0 +1,49 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Sub-3:05</title><style>
+:root{font:16px system-ui,sans-serif;background:#0a1422;color:#edf3fb}*{box-sizing:border-box}body{margin:auto;max-width:1050px;padding:24px}h1{font-size:2rem;margin:0}p,.muted{color:#a9b9cf}section,.tile{background:#14243a;border:1px solid #31435d;border-radius:14px;padding:18px;margin:14px 0}.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.tile{margin:0}.value{font-size:1.8rem;font-weight:700;margin-top:7px}input,button{font:inherit;padding:12px;border-radius:8px;border:1px solid #667d99;margin:4px}input{background:#0a1422;color:white;max-width:100%}button{background:#9de1bd;color:#092018;font-weight:700;cursor:pointer}.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid #31435d}th{color:#b2c0d0}.error{color:#ffb4b4}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.day{min-height:75px;background:#1b304c;border-radius:8px;padding:8px;font-size:.8rem}.day strong{display:block}.day span{color:#a4e5c2}@media(max-width:600px){.day{min-height:65px;padding:5px;font-size:.7rem}body{padding:12px}}
+</style></head><body><h1>Project Sub-3:05</h1><p>Your Garmin-powered marathon training home</p>
+<section id="login"><h2>Sign in</h2><p>Use your existing Supabase Auth email and password.</p><form id="form"><input type="email" id="email" placeholder="Email" required autocomplete="username"><input type="password" id="password" placeholder="Password" required autocomplete="current-password"><button>Sign in</button></form></section>
+<div id="app" hidden><section class="row"><span id="who" class="muted"></span><button id="refresh">Refresh Garmin data</button><button id="logout">Sign out</button></section>
+<div class="tiles"><div class="tile"><div class="muted">Last 7 days</div><div class="value" id="w1">—</div><div class="muted">running miles</div></div><div class="tile"><div class="muted">Previous 7 days</div><div class="value" id="w2">—</div><div class="muted">running miles</div></div><div class="tile"><div class="muted">Longest run (30 days)</div><div class="value" id="long">—</div><div class="muted">miles</div></div><div class="tile"><div class="muted">Garmin activities</div><div class="value" id="total">—</div><div class="muted">imported</div></div></div>
+<section><h2>Training calendar · last 28 days</h2><div class="calendar" id="calendar"></div><p class="muted">Recorded Garmin running mileage; planned workouts will be added next.</p></section>
+<section><h2>Recent runs</h2><div class="scroll"><table><thead><tr><th>Date</th><th>Type</th><th>Miles</th><th>Time</th><th>Pace</th></tr></thead><tbody id="runs"></tbody></table></div></section>
+<section><h2>Coach's brief</h2><p>Coaching recommendations are not yet published to this website. The dashboard currently displays verified Garmin data; no AI-generated workouts are being presented as personalized advice.</p></section></div>
+<p id="status" role="status" class="muted"></p>
+<script type="module">
+import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const url="https://dlfdghdrjjghukuonjob.supabase.co",key="sb_publishable_C7VPcdZuLGCpq9SEZobYDg_vVJ-WK3J";
+const $=id=>document.getElementById(id),status=(s,bad=false)=>{$('status').textContent=s;$('status').className=bad?'error':'muted'};
+if(!url||!key){status('Supabase public configuration unavailable. Contact the project owner.',true);}
+else {
+const sb=createClient(url,key);
+const mi=a=>Number(a.distance_meters||0)/1609.344,run=a=>/run/i.test(a.activity_type||'');
+const date=a=>new Date(String(a.activity_date).replace(' ','T')+(String(a.activity_date).includes('Z')?'':'Z'));
+const duration=s=>{s=Math.round(Number(s)||0);return Math.floor(s/3600)+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+async function load(){
+const {data:{user}}=await sb.auth.getUser();
+$('login').hidden=!!user;$('app').hidden=!user;
+if(!user){status('Sign in to view your training.');return;}
+$('who').textContent=user.email||'Signed in';status('Loading workouts…');
+let all=[],offset=0;
+for(;;){const {data,error}=await sb.from('garmin_activities').select('activity_date,activity_type,distance_meters,duration_seconds,activity_id').order('activity_date',{ascending:false}).range(offset,offset+999);
+if(error){status('Unable to load Garmin activities: '+error.message,true);return;}
+all.push(...data);if(data.length<1000)break;offset+=1000;}
+const runs=all.filter(run),now=Date.now(),day=86400000;
+const recent=(a,from,to)=>{const t=date(a).getTime();return t>=now-to*day&&t<now-from*day};
+$('w1').textContent=runs.filter(a=>recent(a,0,7)).reduce((s,a)=>s+mi(a),0).toFixed(1);
+$('w2').textContent=runs.filter(a=>recent(a,7,14)).reduce((s,a)=>s+mi(a),0).toFixed(1);
+$('long').textContent=Math.max(0,...runs.filter(a=>recent(a,0,30)).map(mi)).toFixed(1);
+$('total').textContent=all.length.toLocaleString();
+$('runs').replaceChildren();
+for(const a of runs.slice(0,25)){const tr=document.createElement('tr'),m=mi(a),secs=Number(a.duration_seconds)||0,p=secs&&m?Math.round(secs/m):0;
+for(const val of [String(a.activity_date).slice(0,10),a.activity_type||'Run',m.toFixed(1),duration(secs),p?Math.floor(p/60)+':'+String(p%60).padStart(2,'0')+'/mi':'—']){const td=document.createElement('td');td.textContent=val;tr.append(td)}$('runs').append(tr)}
+const calendar=$('calendar');calendar.replaceChildren();const today=new Date();today.setUTCHours(0,0,0,0);
+for(let i=27;i>=0;i--){const d=new Date(today.getTime()-i*day),ymd=d.toISOString().slice(0,10),matching=runs.filter(a=>String(a.activity_date).slice(0,10)===ymd),cell=document.createElement('div');cell.className='day';const head=document.createElement('strong');head.textContent=d.toLocaleDateString(undefined,{month:'short',day:'numeric',timeZone:'UTC'});const body=document.createElement('span');body.textContent=matching.length?matching.reduce((s,a)=>s+mi(a),0).toFixed(1)+' mi':'—';cell.append(head,body);calendar.append(cell)}
+status('Loaded '+all.length+' activities · '+new Date().toLocaleTimeString());
+}
+$('form').addEventListener('submit',async e=>{e.preventDefault();status('Signing in…');const {error}=await sb.auth.signInWithPassword({email:$('email').value,password:$('password').value});if(error){status(error.message,true);return;}$('password').value='';await load()});
+$('logout').onclick=async()=>{await sb.auth.signOut();await load()};
+$('refresh').onclick=load;
+await load();
+}
+</script></body></html>
